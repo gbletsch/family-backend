@@ -1,27 +1,21 @@
 import express from "express";
-import knex from "./database/connection";
+import FeedController from "./controllers/feedController";
+import UsersController from "./controllers/usersController";
 
 const routes = express.Router();
+const feedController = new FeedController();
+const usersController = new UsersController();
 
 routes.get("/", (request, response) => {
   response.json({ message: "Hello, world!!!" });
 });
 
-routes.get("/users", async (request, response) => {
-  const users = await knex("users").select("*");
+routes.get("/users", usersController.index);
+routes.get("/users/:id", usersController.show);
 
-  const serializedUsers = users.map((user) => {
-    return {
-      name: user.name,
-      avatar: `http://localhost:3333/assets/${user.avatar}`,
-      email: user.email,
-      id: user.id,
-    };
-  });
-
-  return response.json(serializedUsers);
-});
-
-
+routes.get("/feed", feedController.index);
+routes.post("/feed", feedController.create);
 
 export default routes;
+
+// index, show, create, update, delete
