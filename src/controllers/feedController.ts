@@ -4,8 +4,6 @@ import knex from "../database/connection";
 class FeedController {
   async index(request: Request, response: Response) {
     const { user_id } = request.query;
-    console.log("FeedController -> index -> user_id", user_id);
-    console.log("FeedController -> index -> request.query", request.query);
 
     let query = knex("feed").select("*");
     if (user_id) {
