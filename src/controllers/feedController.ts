@@ -15,14 +15,14 @@ class FeedController {
   }
 
   async create(request: Request, response: Response) {
-    const { title, text } = request.body;
+    const { title, text, photo } = request.body;
     const user_id = request.header("user_id");
 
-    // const trx = await knex.transaction();
     const result = await knex("feed").insert({
       title,
       text,
       user_id,
+      photo,
     });
 
     // .then((result) => {
@@ -38,7 +38,7 @@ class FeedController {
 
     // TODO: não consegui ainda checar a chave estrangeira
 
-    return response.json({ message: result });
+    return response.json({ ids_created: result });
   }
 }
 
