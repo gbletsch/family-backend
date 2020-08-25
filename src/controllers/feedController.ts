@@ -6,7 +6,8 @@ class FeedController {
     const { user_id } = request.query;
 
     let query = knex("feed")
-      .join('users',  'feed.user_id', '=', 'users.id')
+      .join("users", "feed.user_id", "=", "users.id")
+      .select("feed.*", "users.name", "users.avatar", "users.email");
 
     // TODO: acho que fica mais legal fazer esse controle no front
     if (user_id) {
