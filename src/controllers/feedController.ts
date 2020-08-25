@@ -5,10 +5,14 @@ class FeedController {
   async index(request: Request, response: Response) {
     const { user_id } = request.query;
 
-    let query = knex("feed").select("*");
+    let query = knex("feed")
+      .join('users',  'feed.user_id', '=', 'users.id')
+
+    // TODO: acho que fica mais legal fazer esse controle no front
     if (user_id) {
       query = query.where("user_id", String(user_id));
     }
+
     const feed = await query;
 
     return response.json(feed);
