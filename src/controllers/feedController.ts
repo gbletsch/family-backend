@@ -20,15 +20,18 @@ class FeedController {
   }
 
   async create(request: Request, response: Response) {
-    const { title, text, photo } = request.body;
-    const user_id = request.header("user_id");
+    const { title, text, photo, user_id } = request.body;
+    // const user_id = request.header("user_id");
 
-    const result = await knex("feed").insert({
-      title,
-      text,
-      user_id,
-      photo,
-    });
+    const result = await knex("feed")
+      .insert({
+        title,
+        text,
+        user_id,
+        photo,
+      })
+      .then((response) => console.log(response))
+      .catch((error) => console.error(error));
 
     // .then((result) => {
     //   console.log("result", result)
@@ -48,3 +51,5 @@ class FeedController {
 }
 
 export default FeedController;
+
+// TODO: adicionar um timestamp no feed para ordenar no front
