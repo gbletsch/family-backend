@@ -5,6 +5,7 @@ import multerConfig from "./config/multer";
 
 import FeedController from "./controllers/feedController";
 import UsersController from "./controllers/usersController";
+import { celebrate, Joi } from "celebrate";
 
 const routes = express.Router();
 const upload = multer(multerConfig);
@@ -20,7 +21,23 @@ routes.get("/users", usersController.index);
 routes.get("/users/:id", usersController.show);
 
 routes.get("/feed", feedController.index);
-routes.post("/feed", upload.single("photo"), feedController.create);
+routes.post(
+  "/feed",
+  upload.single("photo"),
+  celebrate(
+    {
+      body: Joi.object().keys({
+        title: Joi.string().required(),
+        text: Joi.string().required(),
+        user_id: Joi.number().required()
+      }),
+    },
+    {
+      abortEarly: false,
+    }
+  ),
+  feedController.create
+);
 
 export default routes;
 
