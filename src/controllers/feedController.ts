@@ -29,7 +29,11 @@ class FeedController {
   }
 
   create(request: Request, response: Response) {
+    console.log("FeedController -> create -> request.body", request.body);
+
     const { title, text, user_id } = request.body;
+    console.log("CHEGUEI NO CREATE !!!");
+
     // const user_id = request.header("user_id");
     // TODO: não consegui ainda checar a chave estrangeira
     knex("feed")
@@ -38,6 +42,8 @@ class FeedController {
         text,
         user_id,
         photo: request.file.filename,
+        created_at: Date.now(),
+        updated_at: Date.now()
       })
       .then((result) => {
         return response.json({
@@ -64,7 +70,6 @@ class FeedController {
     //   trx.rollback
     //   return 'fudeu'
     // });
-
   }
 }
 
