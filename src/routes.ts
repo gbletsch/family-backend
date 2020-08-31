@@ -19,7 +19,7 @@ routes.get("/", (request, response) => {
 
 routes.get("/users", usersController.index);
 routes.get("/users/:id", usersController.show);
-routes.post("/users", usersController.create);
+routes.post("/users", upload.single("avatar"), usersController.create);
 
 routes.get("/feed", feedController.index);
 routes.post(

@@ -6,8 +6,9 @@ class FeedController {
     const { user_id } = request.query;
 
     knex("feed")
-      .join("users", "feed.user_id", "=", "users.id")
-      .select("feed.*", "users.name", "users.avatar", "users.email")
+      .select('*')
+      // .join("users", "feed.user_id", "=", "users.id")
+      // .select("feed.*", "users.name", "users.avatar", "users.email")
       .then((feed) => {
         const serializedFeed = feed.map((feedItem) => {
           return {
@@ -15,6 +16,7 @@ class FeedController {
             photoUrl: `http://192.168.0.7:3333/uploads/${feedItem.photo}`,
           };
         });
+        console.log("FeedController -> index -> serializedFeed", serializedFeed)
         return response.json(serializedFeed);
       })
       .catch((error) => {
@@ -29,10 +31,8 @@ class FeedController {
   }
 
   create(request: Request, response: Response) {
-    console.log("FeedController -> create -> request.body", request.body);
 
     const { title, text, user_id } = request.body;
-    console.log("CHEGUEI NO CREATE !!!");
 
     // const user_id = request.header("user_id");
     // TODO: não consegui ainda checar a chave estrangeira
@@ -42,8 +42,6 @@ class FeedController {
         text,
         user_id,
         photo: request.file.filename,
-        created_at: Date.now(),
-        updated_at: Date.now(),
       })
       .then((result) => {
         return response.json({
