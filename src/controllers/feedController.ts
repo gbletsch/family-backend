@@ -43,7 +43,7 @@ class FeedController {
         user_id,
         photo: request.file.filename,
         created_at: Date.now(),
-        updated_at: Date.now()
+        updated_at: Date.now(),
       })
       .then((result) => {
         return response.json({
@@ -53,7 +53,6 @@ class FeedController {
           user_id,
           photo: request.file.filename,
         });
-        // return response.json(result) // retorna somente as IDs criadas
       })
       .catch((error) => {
         console.error(error);

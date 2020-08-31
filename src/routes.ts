@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 
 import multer from "multer";
 import multerConfig from "./config/multer";
@@ -14,11 +14,12 @@ const feedController = new FeedController();
 const usersController = new UsersController();
 
 routes.get("/", (request, response) => {
-  response.json({ message: "Hello, world!!!" });
+  return response.json({ message: "Hello, world!!!" });
 });
 
 routes.get("/users", usersController.index);
 routes.get("/users/:id", usersController.show);
+routes.post("/users", usersController.create);
 
 routes.get("/feed", feedController.index);
 routes.post(
@@ -29,7 +30,7 @@ routes.post(
       body: Joi.object().keys({
         title: Joi.string().required(),
         text: Joi.string().required(),
-        user_id: Joi.number().required()
+        user_id: Joi.number().required(),
       }),
     },
     {

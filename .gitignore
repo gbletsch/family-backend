@@ -116,6 +116,6 @@ dist
 .pnp.*
 
 # src
-src/database/database.sqlite
+*.sqlite
 uploads/*
 !uploads/.gitkeep

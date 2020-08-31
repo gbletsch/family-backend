@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import knex from "../database/connection";
+import bcrypt from "bcrypt";
 
 class UsersController {
   async show(request: Request, response: Response) {
     const { id } = request.params;
     const result = await knex("users").select("*").where("id", id).first();
-    console.log("UsersController -> show -> result", result);
 
     if (!result) {
       return response.status(400).json({ message: "user not found" });
@@ -25,6 +25,38 @@ class UsersController {
       };
     });
     return response.json(serializedUsers);
+  }
+
+  async create(request: Request, response: Response) {
+    const { name, email, avatar, password } = request.body;
+    console.log("UsersController -> create -> password", password);
+    let hashedPassword = "";
+    bcrypt.hash(password, 10, (bcryptError, hashedPassword) => {
+      if (bcryptError) {
+        console.error("UsersController -> create -> bcryptError", bcryptError);
+        return response.status(500).json({ bcryptError });
+      }
+
+      knex("users")
+        .insert({
+          name,
+          email,
+          avatar,
+          password: hashedPassword,
+        })
+        .then((result) => {
+          return response.json({
+            id: result[0],
+            name,
+            email,
+            avatar,
+          });
+        })
+        .catch((error) => {
+          console.error("UsersController -> create -> error", error);
+          return response.status(500).json({ error });
+        });
+    });
   }
 }
 
