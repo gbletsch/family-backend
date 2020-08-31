@@ -29,8 +29,6 @@ class UsersController {
 
   async create(request: Request, response: Response) {
     const { name, email, avatar, password } = request.body;
-    console.log("UsersController -> create -> password", password);
-    let hashedPassword = "";
     bcrypt.hash(password, 10, (bcryptError, hashedPassword) => {
       if (bcryptError) {
         console.error("UsersController -> create -> bcryptError", bcryptError);
