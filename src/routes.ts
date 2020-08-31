@@ -17,6 +17,8 @@ routes.get("/", (request, response) => {
   return response.json({ message: "Hello, world!!!" });
 });
 
+routes.post("/login", usersController.login);
+
 routes.get("/users", usersController.index);
 routes.get("/users/:id", usersController.show);
 routes.post("/users", upload.single("avatar"), usersController.create);
