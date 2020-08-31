@@ -45,7 +45,6 @@ class UsersController {
           password: hashedPassword,
         })
         .then((result) => {
-          alert("Usuário criado com sucesso");
           return response.json({
             id: result[0],
             name,
@@ -54,7 +53,6 @@ class UsersController {
           });
         })
         .catch((error) => {
-          alert("Erro ao criar usuário");
           console.error("UsersController -> create -> error", error);
           return response.status(500).json({ error });
         });
