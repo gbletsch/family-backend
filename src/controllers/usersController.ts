@@ -11,6 +11,7 @@ class UsersController {
     const result = await knex("users").where("email", email).select("*");
 
     if (result.length != 1) {
+      console.error("UsersController -> login -> result.length", result.length);
       return response.status(401).json({ error: "falha na autenticação" });
     }
     bcrypt.compare(password, result[0].password, (error, res) => {
@@ -19,6 +20,7 @@ class UsersController {
         return response.status(500).json({ error: "falha na autenticação" });
       }
       if (!res) {
+        console.error("UsersController -> login -> res", res);
         return response.status(401).json({ error: "falha na autenticação" });
       }
 
@@ -34,35 +36,10 @@ class UsersController {
         }
       );
       return response.json({
-        message: "entrou",
         token,
       });
     });
   }
-
-  // async show(request: Request, response: Response) {
-  //   const { id } = request.params;
-  //   const result = await knex("users").select("*").where("id", id).first();
-
-  //   if (!result) {
-  //     return response.status(400).json({ message: "user not found" });
-  //   }
-  //   return response.json(result);
-  // }
-
-  // async index(request: Request, response: Response) {
-  //   const users = await knex("users").select("*");
-
-  //   const serializedUsers = users.map((user) => {
-  //     return {
-  //       name: user.name,
-  //       avatar: `http://localhost:3333/assets/${user.avatar}`,
-  //       email: user.email,
-  //       id: user.id,
-  //     };
-  //   });
-  //   return response.json(serializedUsers);
-  // }
 
   async create(request: Request, response: Response) {
     const { name, email, password } = request.body;

@@ -12,13 +12,12 @@ import jwt from "jsonwebtoken";
 
 const routes = express.Router();
 const upload = multer(multerConfig);
-
+ 
 const feedController = new FeedController();
 const usersController = new UsersController();
 
 function login(request: Request, response: Response, next: NextFunction) {
   try {
-
     const token = request.headers.authorization?.split(" ")[1] || "123";
     const decode = jwt.verify(token, process.env.JWT_SECRET || "123");
     request.body.user = decode
