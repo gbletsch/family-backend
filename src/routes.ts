@@ -19,8 +19,11 @@ const usersController = new UsersController();
 function login(request: Request, response: Response, next: NextFunction) {
   try {
     const token = request.headers.authorization?.split(" ")[1] || "123";
+    console.log("login -> token", token)
     const decode = jwt.verify(token, process.env.JWT_SECRET || "123");
     request.body.user = decode
+    console.log("login -> request", request.headers)
+    console.log("login -> decode", decode)
     next();
   } catch (error) {
     console.error("login -> error", error)

@@ -8,6 +8,11 @@ class FeedController {
     knex("feed")
       .select("*")
       .then((feed) => {
+        const userData = {
+          user_id: user.id,
+          name: user.name,
+          avatar: user.avatar,
+        }
         const serializedFeed = feed.map((feedItem) => {
           return {
             ...feedItem,
@@ -17,7 +22,9 @@ class FeedController {
             avatar: user.avatar,
           };
         });
-        return response.json(serializedFeed);
+        return response
+          // .header("X-user", [user.id, user.name, user.avatar])
+          .json({ userData, serializedFeed});
       })
       .catch((error) => {
         console.error("FeedController -> index -> error", error);
