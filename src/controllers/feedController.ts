@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import knex from "../database/connection";
 
 class FeedController {
-  async index(request: Request, response: Response) {
+  index(request: Request, response: Response) {
     const { user } = request.body;
 
     knex("feed")
@@ -31,7 +31,6 @@ class FeedController {
   create(request: Request, response: Response) {
     const { title, text, user_id } = request.body;
 
-    // const user_id = request.header("user_id");
     // TODO: não consegui ainda checar a chave estrangeira
     knex("feed")
       .insert({
@@ -64,6 +63,27 @@ class FeedController {
     //   trx.rollback
     //   return 'fudeu'
     // });
+  }
+
+  delete(request: Request, response: Response) {
+    const idToDelete = request.params.id;
+    const userId = request.body.user.id;
+
+    knex("feed")
+      .where("id", Number(idToDelete))
+      .where("user_id", Number(userId))
+      .del()
+      .then((result) => {
+        console.log("FeedController -> delete -> result", result);
+        if ((result == 0)) {
+          return response.json({ result });
+        }
+        return response.json({ result });
+      })
+      .catch((error) => {
+        console.error("FeedController -> delete -> error", error);
+        return response.status(400).json({ error });
+      });
   }
 }
 

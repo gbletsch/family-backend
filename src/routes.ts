@@ -35,10 +35,10 @@ routes.get("/", (request, response) => {
 routes.post("/login", usersController.login);
 
 // routes.get("/users", usersController.index);
-// routes.get("/users/:id", usersController.show);
 routes.post("/users", upload.single("avatar"), usersController.create);
 
 routes.get("/feed", login, feedController.index);
+routes.delete("/feed/:id", login, feedController.delete);
 routes.post(
   "/feed",
   login,
