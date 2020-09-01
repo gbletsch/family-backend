@@ -6,25 +6,21 @@ class FeedController {
     const { user } = request.body;
 
     knex("feed")
-      .select("*")
+      .leftJoin("users", "users.id", "feed.user_id")
+      .select("feed.*", "users.name")
       .then((feed) => {
         const userData = {
           user_id: user.id,
           name: user.name,
           avatar: user.avatar,
-        }
+        };
         const serializedFeed = feed.map((feedItem) => {
           return {
             ...feedItem,
             photoUrl: `http://192.168.0.7:3333/uploads/${feedItem.photo}`,
-            user_id: user.id,
-            name: user.name,
-            avatar: user.avatar,
           };
         });
-        return response
-          // .header("X-user", [user.id, user.name, user.avatar])
-          .json({ userData, serializedFeed});
+        return response.json({ userData, serializedFeed });
       })
       .catch((error) => {
         console.error("FeedController -> index -> error", error);

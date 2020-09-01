@@ -12,21 +12,18 @@ import jwt from "jsonwebtoken";
 
 const routes = express.Router();
 const upload = multer(multerConfig);
- 
+
 const feedController = new FeedController();
 const usersController = new UsersController();
 
 function login(request: Request, response: Response, next: NextFunction) {
   try {
     const token = request.headers.authorization?.split(" ")[1] || "123";
-    console.log("login -> token", token)
     const decode = jwt.verify(token, process.env.JWT_SECRET || "123");
-    request.body.user = decode
-    console.log("login -> request", request.headers)
-    console.log("login -> decode", decode)
+    request.body.user = decode;
     next();
   } catch (error) {
-    console.error("login -> error", error)
+    console.error("login -> error", error);
     return response.status(401).json({ error: "Falha na autenticação" });
   }
 }
