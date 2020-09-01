@@ -23,6 +23,7 @@ function login(request: Request, response: Response, next: NextFunction) {
     request.body.user = decode
     next();
   } catch (error) {
+    console.error("login -> error", error)
     return response.status(401).json({ error: "Falha na autenticação" });
   }
 }
