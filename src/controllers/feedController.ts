@@ -75,9 +75,6 @@ class FeedController {
       .del()
       .then((result) => {
         console.log("FeedController -> delete -> result", result);
-        if ((result == 0)) {
-          return response.json({ result });
-        }
         return response.json({ result });
       })
       .catch((error) => {
