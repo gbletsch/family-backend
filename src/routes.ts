@@ -9,7 +9,7 @@ import { celebrate, Joi } from "celebrate";
 import jwt from "jsonwebtoken";
 
 // import login from './middleware/login'
- 
+
 const routes = express.Router();
 const upload = multer(multerConfig);
 
