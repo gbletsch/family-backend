@@ -72,7 +72,6 @@ class FeedController {
     const idToDelete = request.params.id;
     const userId = request.body.user.id;
     const photo = request.params.photo;
-    console.log("FeedController -> delete -> photo", photo);
 
     knex("feed")
       // .returning('photo') // não funciona com o sqlite
@@ -80,7 +79,6 @@ class FeedController {
       .where("user_id", Number(userId))
       .del()
       .then((result) => {
-        console.log("FeedController -> delete -> result", result);
         fs.unlink(`uploads/${photo}`, (err) => console.error(err));
         return response.json({ result });
       })
