@@ -40,6 +40,7 @@ class FeedController {
         photo: request.file.filename,
       })
       .then((result) => {
+        console.log("FeedController -> create -> result", result);
         return response.json({
           id: result[0],
           title,

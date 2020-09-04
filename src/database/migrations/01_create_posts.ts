@@ -6,13 +6,9 @@ export async function up(knex: Knex) {
     table
       .integer("user_id")
       .notNullable()
-      // .unsigned()
-      // .index()
       .references("id")
       .inTable("users");
-    // table.bigInteger('AddressId').unsigned().index().references('id').inTable('Address')
 
-    // table.foreign("user_id").references("id").inTable("users");
     table.string("photo");
     table.string("title");
     table.string("text");

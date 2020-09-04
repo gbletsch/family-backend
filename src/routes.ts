@@ -34,7 +34,6 @@ routes.get("/", (request, response) => {
 
 routes.post("/login", usersController.login);
 
-// routes.get("/users", usersController.index);
 routes.post("/users", upload.single("avatar"), usersController.create);
 
 routes.get("/feed", login, feedController.index);
@@ -46,8 +45,6 @@ routes.post(
   celebrate(
     {
       body: Joi.object().keys({
-        title: Joi.string().required(),
-        text: Joi.string().required(),
         user_id: Joi.number().required(),
       }),
     },
