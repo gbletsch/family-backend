@@ -38,22 +38,7 @@ routes.post("/users", upload.single("avatar"), usersController.create);
 
 routes.get("/feed", login, feedController.index);
 routes.delete("/feed/:id", login, feedController.delete);
-routes.post(
-  "/feed",
-  login,
-  upload.single("photo"),
-  celebrate(
-    {
-      body: Joi.object().keys({
-        user_id: Joi.number().required(),
-      }),
-    },
-    {
-      abortEarly: false,
-    }
-  ),
-  feedController.create
-);
+routes.post("/feed", login, upload.single("photo"), feedController.create);
 
 export default routes;
 
