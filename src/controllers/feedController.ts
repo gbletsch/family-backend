@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import knex from "../database/connection";
-import { PHOTO_URL } from '../assets/constants'
-
+import { PHOTO_URL } from "../assets/constants";
+import fs from "fs";
 
 class FeedController {
   index(request: Request, response: Response) {
@@ -68,16 +68,20 @@ class FeedController {
     // });
   }
 
-  delete(request: Request, response: Response) {
+  async delete(request: Request, response: Response) {
     const idToDelete = request.params.id;
     const userId = request.body.user.id;
+    const photo = request.params.photo;
+    console.log("FeedController -> delete -> photo", photo);
 
     knex("feed")
+      // .returning('photo') // não funciona com o sqlite
       .where("id", Number(idToDelete))
       .where("user_id", Number(userId))
       .del()
       .then((result) => {
         console.log("FeedController -> delete -> result", result);
+        fs.unlink(`uploads/${photo}`, (err) => console.error(err));
         return response.json({ result });
       })
       .catch((error) => {

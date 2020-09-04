@@ -37,7 +37,7 @@ routes.post("/login", usersController.login);
 routes.post("/users", upload.single("avatar"), usersController.create);
 
 routes.get("/feed", login, feedController.index);
-routes.delete("/feed/:id", login, feedController.delete);
+routes.delete("/feed/:id/:photo", login, feedController.delete);
 routes.post("/feed", login, upload.single("photo"), feedController.create);
 
 export default routes;
