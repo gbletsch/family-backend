@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import knex from "../database/connection";
 import bcrypt from "bcrypt";
 import jwt, { Secret } from "jsonwebtoken";
+import { PHOTO_URL } from "../assets/constants";
 
 require("dotenv").config();
 
@@ -28,7 +29,7 @@ class UsersController {
         {
           id: result[0].id,
           name: result[0].name,
-          avatar: `http://192.168.0.7:3333/uploads/${result[0].avatar}`,
+          avatar: `${PHOTO_URL}${result[0].avatar}`,
         },
         process.env.JWT_SECRET || "123",
         {

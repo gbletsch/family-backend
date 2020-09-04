@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import knex from "../database/connection";
+import { PHOTO_URL } from '../assets/constants'
+
 
 class FeedController {
   index(request: Request, response: Response) {
@@ -17,7 +19,7 @@ class FeedController {
         const serializedFeed = feed.map((feedItem) => {
           return {
             ...feedItem,
-            photoUrl: `http://192.168.0.7:3333/uploads/${feedItem.photo}`,
+            photoUrl: `${PHOTO_URL}${feedItem.photo}`,
           };
         });
         return response.json({ userData, serializedFeed });
